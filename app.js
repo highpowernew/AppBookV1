@@ -4,12 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var testeRouter = require('./routes/teste');
-
-
-var app = express();
+const app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -20,10 +15,19 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/public/images', express.static(path.join(__dirname, '/public/images')));
+app.use('/public/javascripts', express.static(path.join(__dirname, '/public/javascripts')));
+app.use('/public/stylesheets', express.static(path.join(__dirname, '/public/stylesheets')));
+
+// Redirecionamento das rotas
+
+const indexRouter = require('./routes/index');
+const usersRouter = require('./routes/users');
+const adminRouter = require('./routes/admin');
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/teste', testeRouter);
+app.use('/admin', adminRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
